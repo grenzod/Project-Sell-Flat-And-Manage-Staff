@@ -17,23 +17,20 @@
                 <ul class="breadcrumb">
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
+                        <a href="<c:url value="/admin/home"/>">
+                            Trang chủ
+                        </a>
                     </li>
-                    <li class="active">Dashboard</li>
-                </ul><!-- /.breadcrumb -->
+                    <c:if test="${not empty buildingEdit.id}">
+                        <li class="active"> Sửa thông tin tòa nhà </li>
+                    </c:if>
+                    <c:if test="${empty buildingEdit.id}">
+                        <li class="active"> Thêm thông tin tòa nhà </li>
+                    </c:if>
+                </ul>
             </div>
 
             <div class="page-content">
-                <div class="page-header">
-                    <h1>
-                        Dashboard
-                        <small>
-                            <i class="ace-icon fa fa-angle-double-right"></i>
-                            overview &amp; stats
-                        </small>
-                    </h1>
-                </div><!-- /.page-header -->
-
                 <div class="row" style="font-family: 'Times New Roman', Times, serif;">
                     <form:form modelAttribute="buildingEdit" id="listForm" method="GET">
                         <div class="col-xs-12">

@@ -3,6 +3,7 @@ package com.javaweb.converter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,10 @@ public class UpgradeOrAddBuildingConverter {
     public static BuildingEntity toUpgradeOrAddBuildingConverter(BuildingDTO buildingDTO){
         BuildingEntity buildingEntity;
         buildingEntity = modelMapper.map(buildingDTO, BuildingEntity.class);
-        if(buildingDTO.getId() != null) buildingEntity.setItems(buildingRepository.findById(buildingDTO.getId()).get().getItems());
+        if(buildingDTO.getId() != null){
+            buildingEntity.setItems(buildingRepository.findById(buildingDTO.getId()).get().getItems());
+            buildingEntity.setUsers(buildingRepository.findById(buildingDTO.getId()).get().getUsers());
+        }
 
         String result = buildingDTO.getTypeCode().stream().collect(Collectors.joining(","));
         buildingEntity.setTypeCode(result);

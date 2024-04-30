@@ -16,26 +16,20 @@
                         try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
                     </script>
 
-                <ul class="breadcrumb">
-                    <li>
-                        <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="active">Dashboard</li>
-                </ul><!-- /.breadcrumb -->
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="ace-icon fa fa-home home-icon"></i>
+                            <a href="<c:url value="/admin/home"/>">
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li class="active">
+                            Danh sách tòa nhà
+                        </li>
+                    </ul>
                 </div>
 
             <div class="page-content">
-                <div class="page-header">
-                    <h1>
-                        Danh sách tòa nhà
-                        <small>
-                            <i class="ace-icon fa fa-angle-double-right"></i>
-                            overview &amp; stats
-                        </small>
-                    </h1>
-                </div><!-- /.page-header -->
-
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="widget-box ui-sortable-handle">

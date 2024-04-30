@@ -83,7 +83,7 @@ public class BuildingEntity extends BaseEntity{
     @Column(name = "servicefee")
     private String serviceFee;
 
-    @Column(name = "brokeragetee")
+    @Column(name = "brokeragefee")
     private Double brokerageFee;
 
     @Column(name = "type")
