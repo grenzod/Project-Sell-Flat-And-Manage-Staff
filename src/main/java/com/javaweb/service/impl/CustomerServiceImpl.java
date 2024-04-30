@@ -3,9 +3,14 @@ package com.javaweb.service.impl;
 import com.javaweb.builder.CustomerSearchBuilder;
 import com.javaweb.converter.CustomerSearchBuilderConverter;
 import com.javaweb.entity.CustomerEntity;
+import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
+import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.service.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerSearchBuilderConverter customerSearchBuilderConverter;
     @Autowired
     CustomerRepository customerRepository;
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     ModelMapper modelMapper;
 
@@ -43,6 +50,43 @@ public class CustomerServiceImpl implements CustomerService {
     public int countTotalItems(CustomerSearchRequest searchRequest) {
         CustomerSearchBuilder customerSearchBuilder = customerSearchBuilderConverter.toCustomerSearchBuilder(searchRequest);
         return customerRepository.countTotalItem(customerSearchBuilder);
+    }
+
+    @Override
+    public ResponseDTO listStaffs(Long id) {
+        CustomerEntity customer = customerRepository.findById(id).get();
+        List<UserEntity> staffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+        List<UserEntity> staffAssignment = customer.getUsers();
+
+        List<StaffResponseDTO> staffResponseDTOS = new ArrayList<>();
+        for(UserEntity x : staffs){
+            StaffResponseDTO staffResponseDTO = new StaffResponseDTO();
+            staffResponseDTO.setFullName(x.getFullName());
+            staffResponseDTO.setStaffId(x.getId());
+            if(staffAssignment.contains(x)){
+                staffResponseDTO.setChecked("checked");
+            }
+            else {
+                staffResponseDTO.setChecked("");
+            }
+            staffResponseDTOS.add(staffResponseDTO);
+        }
+        ResponseDTO kq = new ResponseDTO();
+        kq.setData(staffResponseDTOS);
+        kq.setMessage("Success");
+        return kq;
+    }
+
+    @Override
+    public void GiveCustomerForStaff(AssignmentDTO assignmentDTO) {
+        CustomerEntity customerEntity = customerRepository.findById(assignmentDTO.getId()).get();
+        List<UserEntity> staffs = userRepository.findByIdIn(assignmentDTO.getStaffs());
+        customerEntity.setUsers(staffs);
+    }
+
+    @Override
+    public void DeleteCustomer(Long[] ids) {
+        customerRepository.deleteByIdIn(ids);
     }
 
 }

@@ -1,7 +1,8 @@
 package com.javaweb.api.admin;
 
-import com.javaweb.model.dto.AssignmentBuildingDTO;
+import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,19 @@ public class CustomerAPI {
     public void AddOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
     }
 
+    @GetMapping("/{id}/staffs")
+    public ResponseDTO loadStaffs(@PathVariable Long id){
+        ResponseDTO result = customerService.listStaffs(id);
+        return result;
+    }
+
     @PostMapping("/assigment")
-    public void upgradeAssignmentCustomer(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
+    public void upgradeAssignmentBuilding(@RequestBody AssignmentDTO assignmentDTO){
+        customerService.GiveCustomerForStaff(assignmentDTO);
+    }
+
+    @DeleteMapping("/{ids}")
+    public void DeleteBuildings(@PathVariable Long[] ids){
+        customerService.DeleteCustomer(ids);
     }
 }

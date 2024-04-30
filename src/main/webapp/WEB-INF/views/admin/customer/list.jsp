@@ -151,7 +151,7 @@
 
                                 <display:column headerClass="col-actions" title="Thao tác">
                                     <security:authorize access="hasRole('MANAGER')">
-                                        <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentBuilding(${tableList.id})">
+                                        <button class="btn btn-xs btn-success" title="Giao khách hàng" onclick="assignmentCustomer(${tableList.id})">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-gift" viewBox="0 0 16 16">
                                                 <path d="M3 2.5a2.5 2.5 0 0 1 5 0 2.5 2.5 0 0 1 5 0v.006c0 .07 0 .27-.038.494H15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 14.5V7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.038A3 3 0 0 1 3 2.506zm1.068.5H7v-.5a1.5 1.5 0 1 0-3 0c0 .085.002.274.045.43zM9 3h2.932l.023-.07c.043-.156.045-.345.045-.43a1.5 1.5 0 0 0-3 0zM1 4v2h6V4zm8 0v2h6V4zm5 3H9v8h4.5a.5.5 0 0 0 .5-.5zm-7 8V7H2v7.5a.5.5 0 0 0 .5.5z"/>
                                             </svg>
@@ -163,7 +163,7 @@
                                     </a>
 
                                     <security:authorize access="hasRole('MANAGER')">
-                                        <button class="btn btn-xs btn-danger" title="Xóa khách hàng">
+                                        <button class="btn btn-xs btn-danger" title="Xóa khách hàng" onclick="deleteCustomer(${tableList.id})">
                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                         </button>
                                     </security:authorize>
@@ -180,9 +180,8 @@
     </div><!-- /.main-content -->
 </div><!-- /.main-container -->
 
-<div class="modal fade" id="assignmentBuildingModal" role="dialog" style="font-family: 'Times New Roman', Times, serif;">
+<div class="modal fade" id="assignmentCustomerModal" role="dialog" style="font-family: 'Times New Roman', Times, serif;">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -199,32 +198,13 @@
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td class="center">
-                            <input type="checkbox" id="checkbox_1" value="1">
-                        </td>
-
-                        <td class="center">
-                            Nguyễn Văn A
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="center">
-                            <input type="checkbox" id="checkbox_2" value="3">
-                        </td>
-
-                        <td class="center">
-                            Nguyễn Văn B
-                        </td>
-                    </tr>
 
                     </tbody>
                 </table>
-                <input type="hidden" id="buildingId" name="Building" value="1">
+                <input type="hidden" id="customerId" name="Customer" value="">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnassignmentBuilding">Giao khách hàng</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnAssignmentCustomer">Giao khách hàng</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -233,17 +213,17 @@
 </div>
 
 <script>
-    //Giao tòa nhà
-    function assignmentBuilding(customerId){
-        $('#assignmentBuildingModal').modal();
+    //Giao khách hàng
+    function assignmentCustomer(customerId){
+        $('#assignmentCustomerModal').modal();
         loadStaff(customerId);
-        $('#customerId').val();
+        $('#customerId').val(customerId);
     }
 
     function loadStaff(customerId){
         $.ajax({
             type: "GET",
-            url: "${buildingAPI}/" + customerId + '/staffs',
+            url: "${customerAPI}/" + customerId + '/staffs',
             dataType: "JSON",
             success: function (response) {
                 var row = '';
@@ -266,14 +246,17 @@
         });
     }
 
-    $('#btnassignmentBuilding').click(function(e){
+    $('#btnAssignmentCustomer').click(function(e){
         e.preventDefault();
         var data = {};
-        data['customerId'] = $('#customerId').val();
+        data['id'] = $('#customerId').val();
         var staffs = $('#staffList').find('tbody input[type = checkbox]:checked').map(function(){
             return $(this).val();
         }).get();
         data['staffs'] = staffs;
+        if(data['staffs'] != ''){
+            assignment(data);
+        }
         console.log("OK");
     })
 
@@ -290,6 +273,38 @@
             error: function(response){
                 console.log("Faile");
                 console.log(response);
+            }
+        });
+    }
+
+    // Xóa khách hàng
+    function deleteCustomer(id){
+        var customerId = [id];
+        deleteCustomers(customerId);
+    }
+
+    $('#btnDeleteCustomer').click(function(e){
+        e.preventDefault();
+        var customerIds = $('#tableList').find('tbody input[type = checkbox]:checked').map(function(){
+            return $(this).val();
+        }).get();
+        deleteCustomers(customerIds);
+    })
+
+    function deleteCustomers(data) {
+        $.ajax({
+            type: "DELETE",
+            url: "${customerAPI}/" + data,
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "JSON",
+            success: function (respond) {
+                console.log("Suscess");
+            },
+            error: function(respond){
+                console.log("Faile");
+                window.location.href = "<c:url value="/admin/building-list"/>";
+                console.log(respond);
             }
         });
     }

@@ -2,16 +2,16 @@ package com.javaweb.model.dto;
 
 import java.util.List;
 
-public class AssignmentBuildingDTO {
-    private Long buildingId;
+public class AssignmentDTO {
+    private Long id;
     private List<Long> staffs;
 
-    public Long getBuildingId() {
-        return buildingId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBuildingId(Long buildingId) {
-        this.buildingId = buildingId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Long> getStaffs() {

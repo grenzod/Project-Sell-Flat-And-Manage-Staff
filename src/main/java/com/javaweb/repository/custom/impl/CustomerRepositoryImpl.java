@@ -38,7 +38,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
             for (Field item : fields) {
                 item.setAccessible(true);
                 String fieldName = item.getName();
-                if (!fieldName.equals("idStaff")) {
+                if (!fieldName.equals("staffId")) {
                     Object value = item.get(customerSearchBuilder);
                     if (value != null) {
                         if (item.getType().getName().equals("java.lang.Long") || item.getType().getName().equals("java.lang.Integer")) {
@@ -57,11 +57,22 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
         return sql;
     }
 
+    private StringBuilder solveQuerySpecialMethod(CustomerSearchBuilder customerSearchBuilder) {
+        StringBuilder sql = new StringBuilder();
+
+        Long idStaff = customerSearchBuilder.getStaffId();
+        if(idStaff != null) {
+            sql.append(" AND d.id = " + idStaff);
+        }
+
+        return sql;
+    }
+
     private StringBuilder buildQueryFilter(CustomerSearchBuilder customerSearchBuilder) {
         StringBuilder sql = new StringBuilder("SELECT DISTINCT a.* FROM customer a");
         sql.append(innerJoinMethod(customerSearchBuilder));
         sql.append(solveQueryNormalMethod(customerSearchBuilder));
-
+        sql.append(solveQuerySpecialMethod(customerSearchBuilder));
         return sql;
     }
 

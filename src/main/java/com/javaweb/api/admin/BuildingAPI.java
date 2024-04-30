@@ -1,6 +1,6 @@
 package com.javaweb.api.admin;
 
-import com.javaweb.model.dto.AssignmentBuildingDTO;
+import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.BuildingService;
@@ -36,7 +36,7 @@ public class BuildingAPI {
 
     //THao tác giao nhân viên
     @PostMapping("/assigment")
-    public void upgradeAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
-        buildingService.GiveBuildingForStaff(assignmentBuildingDTO);
+    public void upgradeAssignmentBuilding(@RequestBody AssignmentDTO assignmentDTO){
+        buildingService.GiveBuildingForStaff(assignmentDTO);
     }
 }

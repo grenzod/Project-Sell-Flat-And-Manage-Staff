@@ -38,9 +38,8 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private List<BuildingEntity> buildings = new ArrayList<>();
 
-//
-//    @OneToMany(mappedBy="users", fetch = FetchType.LAZY)
-//    private List<UserRoleEntity> userRoleEntities = new ArrayList<>();
+    @ManyToMany(mappedBy="users", fetch = FetchType.LAZY)
+    private List<CustomerEntity> customers = new ArrayList<>();
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -110,5 +109,13 @@ public class UserEntity extends BaseEntity {
 
     public void setBuildings(List<BuildingEntity> buildings) {
         this.buildings = buildings;
+    }
+
+    public List<CustomerEntity> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<CustomerEntity> customers) {
+        this.customers = customers;
     }
 }

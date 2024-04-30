@@ -7,7 +7,7 @@ import com.javaweb.converter.UpgradeOrAddBuildingConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
-import com.javaweb.model.dto.AssignmentBuildingDTO;
+import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +101,9 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public void GiveBuildingForStaff(AssignmentBuildingDTO assignmentBuildingDTO) {
-        BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
-        List<UserEntity> staffs = userRepository.findByIdIn(assignmentBuildingDTO.getStaffs());
+    public void GiveBuildingForStaff(AssignmentDTO assignmentDTO) {
+        BuildingEntity buildingEntity = buildingRepository.findById(assignmentDTO.getId()).get();
+        List<UserEntity> staffs = userRepository.findByIdIn(assignmentDTO.getStaffs());
         buildingEntity.setUsers(staffs);
     }
 
