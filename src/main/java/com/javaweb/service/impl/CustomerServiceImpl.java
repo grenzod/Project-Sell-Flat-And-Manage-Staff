@@ -2,9 +2,11 @@ package com.javaweb.service.impl;
 
 import com.javaweb.builder.CustomerSearchBuilder;
 import com.javaweb.converter.CustomerSearchBuilderConverter;
+import com.javaweb.converter.UpgradeOrAddCustomerConverter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentDTO;
+import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
@@ -87,6 +89,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void DeleteCustomer(Long[] ids) {
         customerRepository.deleteByIdIn(ids);
+    }
+
+    @Override
+    public void UpgradeOrAddBuilding(CustomerDTO customerDTO) {
+        CustomerEntity customerEntity = UpgradeOrAddCustomerConverter.toUpgradeOrAddCustomerConverter(customerDTO);
+        customerRepository.save(customerEntity);
     }
 
 }

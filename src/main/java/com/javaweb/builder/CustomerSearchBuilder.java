@@ -1,20 +1,20 @@
 package com.javaweb.builder;
 
 public class CustomerSearchBuilder {
-    private String name;
+    private String fullname;
     private String phone;
     private String email;
     private Long staffId;
 
     public CustomerSearchBuilder(Builder builder){
-        this.name = builder.name;
+        this.fullname = builder.name;
         this.phone = builder.phone;
         this.email = builder.email;
         this.staffId = builder.staffId;
     }
 
-    public String getName() {
-        return name;
+    public String getFullname() {
+        return fullname;
     }
     public String getPhone() {
         return phone;

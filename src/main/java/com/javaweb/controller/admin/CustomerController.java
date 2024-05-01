@@ -1,16 +1,22 @@
 package com.javaweb.controller.admin;
 
+import com.javaweb.entity.CustomerEntity;
+import com.javaweb.entity.TransactionEntity;
+import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
+import com.javaweb.repository.CustomerRepository;
 import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
 import com.javaweb.service.IUserService;
 import com.javaweb.utils.DisplayTagUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +30,10 @@ public class CustomerController {
     private IUserService iUserService;
     @Autowired
     private CustomerService customerService;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @RequestMapping(value = "/admin/customer-list", method = RequestMethod.GET)
     public ModelAndView CustomerList(@ModelAttribute CustomerSearchRequest customerSearchRequest, HttpServletRequest request){
@@ -52,6 +62,24 @@ public class CustomerController {
     public ModelAndView CustomerEdit(@ModelAttribute CustomerDTO customerDTO, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/customer/edit");
         mav.addObject("customerEdit", customerDTO);
+        return mav;
+    }
+
+    @RequestMapping(value = "/admin/customer-edit-{id}", method = RequestMethod.GET)
+    public ModelAndView CustomerEdit(@PathVariable("id") Long id, HttpServletRequest request){
+        ModelAndView mav = new ModelAndView("admin/customer/edit");
+
+        CustomerEntity customer = customerRepository.findById(id).get();
+        CustomerDTO customerDTO = modelMapper.map(customer, CustomerDTO.class);
+
+        mav.addObject("customerEdit", customerDTO);
+        mav.addObject("transactionType", TransactionType.transactionType());
+
+        // Lấy ra 2 loại hình giao dịch của khác hàng từ data
+        TransactionEntity typeCSKH = new TransactionEntity();
+        TransactionEntity typeDDX = new TransactionEntity();
+        mav.addObject("typeCSKH", typeCSKH);
+        mav.addObject("typeDDX", typeDDX);
         return mav;
     }
 }

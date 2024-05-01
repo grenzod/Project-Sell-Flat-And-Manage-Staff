@@ -52,7 +52,7 @@ public class BuildingController {
         }
         buildingSearchRequest.setListResult(list);
         buildingSearchRequest.setTotalItems(buildingService.countTotalItems(buildingSearchRequest));
-        mav.addObject("buildingList", list);
+//        mav.addObject("buildingList", list);
         return mav;
     }
 

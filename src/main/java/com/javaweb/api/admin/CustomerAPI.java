@@ -1,7 +1,8 @@
 package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.AssignmentDTO;
-import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,8 @@ public class CustomerAPI {
     private CustomerService customerService;
 
     @PostMapping
-    public void AddOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
+    public void AddOrUpdateBuilding(@RequestBody CustomerDTO customerDTO){
+        customerService.UpgradeOrAddBuilding(customerDTO);
     }
 
     @GetMapping("/{id}/staffs")
@@ -33,5 +35,10 @@ public class CustomerAPI {
     @DeleteMapping("/{ids}")
     public void DeleteBuildings(@PathVariable Long[] ids){
         customerService.DeleteCustomer(ids);
+    }
+
+    @PostMapping("/transaction")
+    public void AddOrUpgradeTransaction(@RequestBody TransactionDTO transactionDTO) {
+        System.out.println("ok");
     }
 }

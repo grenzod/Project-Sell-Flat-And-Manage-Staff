@@ -31,6 +31,9 @@ public class CustomerEntity extends BaseEntity {
                 inverseJoinColumns = @JoinColumn(name = "staffid", nullable = false))
     private List<UserEntity> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TransactionEntity> transactions = new ArrayList<>();
+
     public String getName() {
         return name;
     }
@@ -85,5 +88,13 @@ public class CustomerEntity extends BaseEntity {
 
     public void setUsers(List<UserEntity> users) {
         this.users = users;
+    }
+
+    public List<TransactionEntity> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionEntity> transactions) {
+        this.transactions = transactions;
     }
 }
