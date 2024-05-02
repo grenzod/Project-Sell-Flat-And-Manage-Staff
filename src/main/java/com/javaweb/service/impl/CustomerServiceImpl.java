@@ -4,15 +4,20 @@ import com.javaweb.builder.CustomerSearchBuilder;
 import com.javaweb.converter.CustomerSearchBuilderConverter;
 import com.javaweb.converter.UpgradeOrAddCustomerConverter;
 import com.javaweb.entity.CustomerEntity;
+import com.javaweb.entity.TransactionEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.MyUserDetail;
+import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.TransactionRepository;
 import com.javaweb.repository.UserRepository;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +39,8 @@ public class CustomerServiceImpl implements CustomerService {
     UserRepository userRepository;
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    TransactionRepository transactionRepository;
 
     @Override
     public List<CustomerSearchResponse> getAllCustomers(Pageable pageable, CustomerSearchRequest customerSearchRequest) {
@@ -97,4 +104,19 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customerEntity);
     }
 
+    @Override
+    public void UpgradeOrAddTransaction(TransactionDTO transactionDTO) {
+        TransactionEntity transaction = new TransactionEntity();
+        if(transactionDTO.getId() != null){
+            transaction = transactionRepository.findById(transactionDTO.getId()).get();
+
+        }
+        else {
+            transaction.setCode(transactionDTO.getCode());
+            transaction.setCustomer(customerRepository.findById(transactionDTO.getCustomerId()).get());
+        }
+        transaction.setNote(transactionDTO.getTransactionDetail());
+        transaction.setStaffid(SecurityUtils.getPrincipal().getId());
+        transactionRepository.save(transaction);
+    }
 }

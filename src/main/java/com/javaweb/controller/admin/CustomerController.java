@@ -7,6 +7,7 @@ import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.TransactionRepository;
 import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.CustomerService;
 import com.javaweb.service.IUserService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller(value = "customerControllerOfAdmin")
@@ -34,6 +36,8 @@ public class CustomerController {
     private ModelMapper modelMapper;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @RequestMapping(value = "/admin/customer-list", method = RequestMethod.GET)
     public ModelAndView CustomerList(@ModelAttribute CustomerSearchRequest customerSearchRequest, HttpServletRequest request){
@@ -76,8 +80,8 @@ public class CustomerController {
         mav.addObject("transactionType", TransactionType.transactionType());
 
         // Lấy ra 2 loại hình giao dịch của khác hàng từ data
-        TransactionEntity typeCSKH = new TransactionEntity();
-        TransactionEntity typeDDX = new TransactionEntity();
+        List<TransactionEntity> typeCSKH = transactionRepository.findByCodeAndCustomer_Id("CSKH", id);
+        List<TransactionEntity> typeDDX = transactionRepository.findByCodeAndCustomer_Id("DDX", id);
         mav.addObject("typeCSKH", typeCSKH);
         mav.addObject("typeDDX", typeDDX);
         return mav;

@@ -1,15 +1,15 @@
 package com.javaweb.model.dto;
 
 public class TransactionDTO extends AbstractDTO{
-    private String customerId;
+    private Long customerId;
     private String code;
     private String transactionDetail;
 
-    public String getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 

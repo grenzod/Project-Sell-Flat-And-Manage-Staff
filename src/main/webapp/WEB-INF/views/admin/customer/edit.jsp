@@ -72,6 +72,13 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="col-xs-3">Tình trạng</label>
+                                    <div class="col-xs-9">
+                                        <form:input path="status" cssClass="form-control"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="col-xs-3"></label>
                                     <div class="col-xs-9">
                                         <c:if test="${not empty customerEdit.id}">
@@ -113,20 +120,28 @@
                                 </thread>
 
                                 <tbody>
-                                    <tr>
-                                        <td>12/05/2003</td>
-                                        <td>Nguyễn Văn A</td>
-                                        <td>Gọi điện và tư vấn</td>
-                                        <td>
-                                            <div class="hidden-sm hidden-xs btn-group">
-                                                <button class="btn btn-sx btn-info" data-toggle="tooltip" title="Sửa thông tin giao dịch"
-                                                        onclick="UpdateTransaction(1)">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <c:forEach var="itemType" items="${typeCSKH}">
+                                        <tr>
+                                            <td>${itemType.createdDate}</td>
+                                            <td>${itemType.createdBy}</td>
+                                            <td>${itemType.modifiedDate}</td>
+                                            <td>${itemType.modifiedBy}</td>
+                                            <td>${itemType.note}</td>
+
+                                            <td>
+                                                <div class="hidden-sm hidden-xs btn-group">
+                                                    <button class="btn btn-sx btn-info" data-toggle="tooltip" title="Sửa thông tin giao dịch"
+                                                            onclick="UpdateTransaction(${itemType.id})">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-handbag-fill" viewBox="0 0 16 16">
+                                                            <path d="M8 1a2 2 0 0 0-2 2v2H5V3a3 3 0 1 1 6 0v2h-1V3a2 2 0 0 0-2-2M5 5H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11v1.5a.5.5 0 0 1-1 0V5H6v1.5a.5.5 0 0 1-1 0z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                 </tbody>
+
                             </table>
                         </div>
                     </c:if>
@@ -143,19 +158,26 @@
                                 </thread>
 
                                 <tbody>
-                                <tr>
-                                    <td>12/05/2003</td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>Gọi điện và tư vấn</td>
-                                    <td>
-                                        <div class="hidden-sm hidden-xs btn-group">
-                                            <button class="btn btn-sx btn-info" data-toggle="tooltip" title="Sửa thông tin giao dịch"
-                                                    onclick="UpdateTransaction(1)">
-                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <c:forEach var="itemType" items="${typeDDX}">
+                                      <tr>
+                                        <td>${itemType.createdDate}</td>
+                                        <td>${itemType.createdBy}</td>
+                                        <td>${itemType.modifiedDate}</td>
+                                        <td>${itemType.modifiedBy}</td>
+                                        <td>${itemType.note}</td>
+
+                                        <td>
+                                            <div class="hidden-sm hidden-xs btn-group">
+                                                <button class="btn btn-sx btn-info" data-toggle="tooltip" title="Sửa thông tin giao dịch"
+                                                        onclick="UpdateTransaction(${itemType.id})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-handbag-fill" viewBox="0 0 16 16">
+                                                        <path d="M8 1a2 2 0 0 0-2 2v2H5V3a3 3 0 1 1 6 0v2h-1V3a2 2 0 0 0-2-2M5 5H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11v1.5a.5.5 0 0 1-1 0V5H6v1.5a.5.5 0 0 1-1 0z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -199,7 +221,7 @@
 </div>
 
 <script>
-    //Thêm hoặc sửa tòa nhà
+    //Thêm hoặc sửa khách hàng
     $('#btnAddOrUpdateCustomer').click(function(){
         var data = {};
         var formData = $('#listForm').serializeArray();
@@ -234,6 +256,7 @@
 
     //Hủy thao tác
     $('#btnCancel').click(function () {
+        console.log("Button Cancel clicked");
         window.location.href = "/admin/customer-list";
     });
 
@@ -246,7 +269,7 @@
 
     // Sửa transaction
     function UpdateTransaction(id){
-        $('#transactionTypeModal').modal;
+        $('#transactionTypeModal').modal();
         $('#id').val(id);
     }
 
@@ -270,10 +293,11 @@
             success: function (){
                 console.log("success");
                 alert("Add transaction sucessfully");
+                window.location.href = "/admin/customer-list";
             },
             error: function (){
                 console.log("failed");
-                window.location.href = <c:url value="admin/customer-edit?message=error"></c:url>
+                window.location.href = "/admin/customer-list?message=error";
             }
         });
     }

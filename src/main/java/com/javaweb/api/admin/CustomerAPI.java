@@ -39,6 +39,6 @@ public class CustomerAPI {
 
     @PostMapping("/transaction")
     public void AddOrUpgradeTransaction(@RequestBody TransactionDTO transactionDTO) {
-        System.out.println("ok");
+        customerService.UpgradeOrAddTransaction(transactionDTO);
     }
 }
