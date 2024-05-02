@@ -95,11 +95,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void DeleteCustomer(Long[] ids) {
-        customerRepository.deleteByIdIn(ids);
+        for(Long id : ids) {
+            CustomerEntity customerEntity = customerRepository.findById(id).get();
+            customerEntity.setActive(0L);
+        }
     }
 
     @Override
-    public void UpgradeOrAddBuilding(CustomerDTO customerDTO) {
+    public void UpgradeOrAddCustomer(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = UpgradeOrAddCustomerConverter.toUpgradeOrAddCustomerConverter(customerDTO);
         customerRepository.save(customerEntity);
     }
@@ -109,7 +112,6 @@ public class CustomerServiceImpl implements CustomerService {
         TransactionEntity transaction = new TransactionEntity();
         if(transactionDTO.getId() != null){
             transaction = transactionRepository.findById(transactionDTO.getId()).get();
-
         }
         else {
             transaction.setCode(transactionDTO.getCode());

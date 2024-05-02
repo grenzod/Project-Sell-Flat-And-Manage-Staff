@@ -2,6 +2,7 @@
          pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<c:url var="customerAPI" value="/api/customer"/>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -116,20 +117,18 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form>
+                    <form id="customerForm">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Họ và tên">
+                                <input type="text" id="name" name="name" class="form-control mt-3" placeholder="Họ và tên">
                             </div>
                             <div class="col">
-                                <input type="text" class="form-control" placeholder="Email">
+                                <input type="text" id="email" name="email" class="form-control mt-3" placeholder="Email">
                             </div>
                         </div>
-                        <input type="text" class="form-control mt-3" placeholder="Số điện thoại">
-                        <input type="text" class="form-control mt-3" placeholder="Nội dung">
-                        <button class="btn btn-primary px-4 mt-3">
-                            Gửi liên hệ
-                        </button>
+                        <input type="text" id="phone" name="phone" class="form-control mt-3" placeholder="Số điện thoại">
+                        <input type="text" id="demand" name="demand" class="form-control mt-3"  placeholder="Nội dung">
+                        <button type="submit" id="submitBtn" class="btn btn-primary px-4 mt-3">Gửi liên hệ</button>
                     </form>
                 </div>
             </div>
@@ -233,6 +232,42 @@
         </div>
     </footer>
 </div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#customerForm').submit(function(e) {
+            e.preventDefault();
+
+            var formData = {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val(),
+                demand: $('#demand').val()
+            };
+
+            if (formData['name'] != '' && formData['phone'] != '') {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/customer",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    success: function () {
+                        console.log("success");
+                        alert("Gửi liên hệ thành công");
+                    },
+                    error: function () {
+                        console.log("failed");
+                        alert("Gửi liên hệ thất bại");
+                        window.location.href = "web/home";
+                    }
+                });
+            } else {
+                alert("Thiếu tên hoặc số điện thoại");
+            }
+        });
+    });
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>

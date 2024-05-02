@@ -65,6 +65,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
             sql.append(" AND d.id = " + idStaff);
         }
 
+        sql.append(" AND a.is_active = 1");
         return sql;
     }
 

@@ -16,6 +16,6 @@ public interface CustomerService {
     ResponseDTO listStaffs(Long id);
     void GiveCustomerForStaff(AssignmentDTO assignmentDTO);
     void DeleteCustomer(Long[] ids);
-    void UpgradeOrAddBuilding(CustomerDTO customerDTO);
+    void UpgradeOrAddCustomer(CustomerDTO customerDTO);
     void UpgradeOrAddTransaction(TransactionDTO transactionDTO);
 }

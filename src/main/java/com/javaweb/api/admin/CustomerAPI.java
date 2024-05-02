@@ -17,8 +17,8 @@ public class CustomerAPI {
     private CustomerService customerService;
 
     @PostMapping
-    public void AddOrUpdateBuilding(@RequestBody CustomerDTO customerDTO){
-        customerService.UpgradeOrAddBuilding(customerDTO);
+    public void AddOrUpdateCustomer(@RequestBody CustomerDTO customerDTO){
+        customerService.UpgradeOrAddCustomer(customerDTO);
     }
 
     @GetMapping("/{id}/staffs")

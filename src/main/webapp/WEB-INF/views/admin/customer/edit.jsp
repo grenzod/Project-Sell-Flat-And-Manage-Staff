@@ -256,7 +256,6 @@
 
     //Hủy thao tác
     $('#btnCancel').click(function () {
-        console.log("Button Cancel clicked");
         window.location.href = "/admin/customer-list";
     });
 

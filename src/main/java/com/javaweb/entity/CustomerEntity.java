@@ -25,6 +25,9 @@ public class CustomerEntity extends BaseEntity {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "is_active")
+    private Long active;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "assignmentcustomer",
                 joinColumns = @JoinColumn(name = "customerid", nullable = false),
@@ -80,6 +83,14 @@ public class CustomerEntity extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getActive() {
+        return active;
+    }
+
+    public void setActive(Long active) {
+        this.active = active;
     }
 
     public List<UserEntity> getUsers() {

@@ -24,6 +24,7 @@ public class UpgradeOrAddCustomerConverter {
 
     public static CustomerEntity toUpgradeOrAddCustomerConverter(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = modelMapper.map(customerDTO, CustomerEntity.class);
+        customerEntity.setActive(1L);
         if(customerEntity.getId() != null){
             customerEntity.setUsers(customerRepository.findById(customerDTO.getId()).get().getUsers());
             customerEntity.setTransactions(customerRepository.findById(customerDTO.getId()).get().getTransactions());
