@@ -72,9 +72,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-3">Tình trạng</label>
-                                    <div class="col-xs-9">
-                                        <form:input path="status" cssClass="form-control"/>
+                                    <div>
+                                        <label class="name">Tình trạng</label>
+                                        <form:select class="form-control" path="status">
+                                            <form:option value="">---Chọn trạng thái---</form:option>
+                                            <form:options items="${status.values()}"/>
+                                        </form:select>
                                     </div>
                                 </div>
 
@@ -152,6 +155,8 @@
                                     <tr>
                                         <th>Ngày tạo</th>
                                         <th>Người tạo</th>
+                                        <td>Ngày sửa</td>
+                                        <td>Người sửa</td>
                                         <th>Chi tiết giao dịch</th>
                                         <th>Thao tác</th>
                                     </tr>
@@ -292,11 +297,11 @@
             success: function (){
                 console.log("success");
                 alert("Add transaction sucessfully");
-                window.location.href = "/admin/customer-list";
+                window.location.href = "/admin/customer-edit-${customerEdit.id}";
             },
             error: function (){
                 console.log("failed");
-                window.location.href = "/admin/customer-list?message=error";
+                window.location.href = "/admin/customer-edit-${customerEdit.id}?message=error";
             }
         });
     }

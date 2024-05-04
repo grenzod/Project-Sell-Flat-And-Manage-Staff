@@ -8,7 +8,6 @@ import com.javaweb.entity.TransactionEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentDTO;
 import com.javaweb.model.dto.CustomerDTO;
-import com.javaweb.model.dto.MyUserDetail;
 import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.model.response.CustomerSearchResponse;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -112,10 +112,14 @@ public class CustomerServiceImpl implements CustomerService {
         TransactionEntity transaction = new TransactionEntity();
         if(transactionDTO.getId() != null){
             transaction = transactionRepository.findById(transactionDTO.getId()).get();
+            transaction.setModifiedBy(SecurityUtils.getPrincipal().getFullName());
+            transaction.setModifiedDate(new Date());
         }
         else {
             transaction.setCode(transactionDTO.getCode());
             transaction.setCustomer(customerRepository.findById(transactionDTO.getCustomerId()).get());
+            transaction.setCreatedBy(SecurityUtils.getPrincipal().getFullName());
+            transaction.setCreatedDate(new Date());
         }
         transaction.setNote(transactionDTO.getTransactionDetail());
         transaction.setStaffid(SecurityUtils.getPrincipal().getId());

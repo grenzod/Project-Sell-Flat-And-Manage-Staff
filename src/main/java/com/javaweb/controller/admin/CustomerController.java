@@ -2,6 +2,7 @@ package com.javaweb.controller.admin;
 
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.entity.TransactionEntity;
+import com.javaweb.enums.StatusType;
 import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
@@ -66,6 +67,7 @@ public class CustomerController {
     public ModelAndView CustomerEdit(@ModelAttribute CustomerDTO customerDTO, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/customer/edit");
         mav.addObject("customerEdit", customerDTO);
+        mav.addObject("status", StatusType.statusType());
         return mav;
     }
 
@@ -78,6 +80,7 @@ public class CustomerController {
 
         mav.addObject("customerEdit", customerDTO);
         mav.addObject("transactionType", TransactionType.transactionType());
+        mav.addObject("status", StatusType.statusType());
 
         // Lấy ra 2 loại hình giao dịch của khác hàng từ data
         List<TransactionEntity> typeCSKH = transactionRepository.findByCodeAndCustomer_Id("CSKH", id);

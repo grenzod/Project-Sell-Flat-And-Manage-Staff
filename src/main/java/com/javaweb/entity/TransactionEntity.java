@@ -1,6 +1,12 @@
 package com.javaweb.entity;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "transaction")
@@ -17,6 +23,18 @@ public class TransactionEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "customerid")
     private CustomerEntity customer = new CustomerEntity();
+
+    @Column(name = "createddate")
+    private Date createdDate;
+
+    @Column(name = "createdby")
+    private String createdBy;
+
+    @Column(name = "modifieddate")
+    private Date modifiedDate;
+
+    @Column(name = "modifiedby")
+    private String modifiedBy;
 
     public String getCode() {
         return code;
@@ -48,5 +66,45 @@ public class TransactionEntity extends BaseEntity {
 
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
+    }
+
+    @Override
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @Override
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Override
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    @Override
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    @Override
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 }

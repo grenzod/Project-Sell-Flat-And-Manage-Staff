@@ -128,6 +128,7 @@
                         </div>
                         <input type="text" id="phone" name="phone" class="form-control mt-3" placeholder="Số điện thoại">
                         <input type="text" id="demand" name="demand" class="form-control mt-3"  placeholder="Nội dung">
+                        <input type="hidden" id="status" name="status" value="Chưa xủ lý">
                         <button type="submit" id="submitBtn" class="btn btn-primary px-4 mt-3">Gửi liên hệ</button>
                     </form>
                 </div>
@@ -242,7 +243,8 @@
                 name: $('#name').val(),
                 email: $('#email').val(),
                 phone: $('#phone').val(),
-                demand: $('#demand').val()
+                demand: $('#demand').val(),
+                status: $('#status').val()
             };
 
             if (formData['name'] != '' && formData['phone'] != '') {
