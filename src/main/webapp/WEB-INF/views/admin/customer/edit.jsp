@@ -72,8 +72,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <div>
-                                        <label class="name">Tình trạng</label>
+                                    <label class="col-xs-3">Tình trạng</label>
+                                    <div class="col-xs-3">
                                         <form:select class="form-control" path="status">
                                             <form:option value="">---Chọn trạng thái---</form:option>
                                             <form:options items="${status.values()}"/>
