@@ -3,9 +3,12 @@ package com.javaweb.converter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.security.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class UpgradeOrAddCustomerConverter {
@@ -30,6 +33,8 @@ public class UpgradeOrAddCustomerConverter {
             customerEntity.setTransactions(customerRepository.findById(customerDTO.getId()).get().getTransactions());
         }
 
+        customerEntity.setCreatedBy(SecurityUtils.getPrincipal().getFullName());
+        customerEntity.setCreatedDate(new Date());
         return customerEntity;
     }
 }
