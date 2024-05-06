@@ -260,7 +260,7 @@
                     error: function () {
                         console.log("failed");
                         alert("Gửi liên hệ thất bại");
-                        window.location.href = "web/home";
+                        window.location.href = "/lien-he";
                     }
                 });
             } else {

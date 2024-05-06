@@ -6,6 +6,7 @@ import com.javaweb.repository.CustomerRepository;
 import com.javaweb.security.utils.SecurityUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -31,10 +32,10 @@ public class UpgradeOrAddCustomerConverter {
         if(customerEntity.getId() != null){
             customerEntity.setUsers(customerRepository.findById(customerDTO.getId()).get().getUsers());
             customerEntity.setTransactions(customerRepository.findById(customerDTO.getId()).get().getTransactions());
+            customerEntity.setCreatedBy(customerRepository.findById(customerDTO.getId()).get().getCreatedBy());
+            customerEntity.setCreatedDate(customerRepository.findById(customerDTO.getId()).get().getCreatedDate());
         }
 
-        customerEntity.setCreatedBy(SecurityUtils.getPrincipal().getFullName());
-        customerEntity.setCreatedDate(new Date());
         return customerEntity;
     }
 }
